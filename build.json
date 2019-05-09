@@ -1,0 +1,9 @@
+{
+	"id": "text_rotator",
+	"version": "1.0.0",
+	"description": "A rotator for text phrases with CSS3 animations",
+	"categories": [
+		"design"
+	],
+	"compatible_from": "2019.2.8"
+}
