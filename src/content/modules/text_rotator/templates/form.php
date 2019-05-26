@@ -1,6 +1,7 @@
 <?php
 
 use UliCMS\HTML\Input;
+use UliCMS\Constants\RequestMethod;
 
 $id = Request::getVar("id", null, "int");
 $model = new RotatingText($id);
