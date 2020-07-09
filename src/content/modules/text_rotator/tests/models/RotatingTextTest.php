@@ -1,14 +1,13 @@
 <?php
 
-class RotatingTextTest extends \PHPUnit\Framework\TestCase {
+include_once dirname(__FILE__) . "/../TextRotatorBaseTest.php";
 
-    public function tearDown() {
-        Database::query("delete from {prefix}rotating_text "
-                . "where animation like 'great-animation%", true);
-    }
-
-    public function testCreateUpdateAndDeleteRotatingText() {
+class RotatingTextTest extends TextRotatorBaseTest
+{
+    public function testCreateUpdateAndDeleteRotatingText()
+    {
         $text = new RotatingText();
+        $text->delete();
         $text->setAnimation("great-animation-1");
         $text->setSeparator("|");
         $text->setSpeed(2500);
@@ -53,7 +52,8 @@ class RotatingTextTest extends \PHPUnit\Framework\TestCase {
         $this->assertNull($deletedText->getId());
     }
 
-    private function createTestData() {
+    private function createTestData()
+    {
         for ($i = 0; $i <= 3; $i++) {
             $text = new RotatingText();
             $text->setAnimation("great-animation-{$i}");
@@ -64,16 +64,18 @@ class RotatingTextTest extends \PHPUnit\Framework\TestCase {
         }
     }
 
-    public function testGetAll() {
+    public function testGetAll()
+    {
         $this->createTestData();
         $texts = RotatingText::getAll();
         $this->assertGreaterThanOrEqual(3, count($texts));
         foreach ($texts as $text) {
             $this->assertInstanceOf(RotatingText::class, $text);
             $this->assertNotNull($text->getID());
-            $this->assertStringStartsWith("great-animation-",
-                    $text->getAnimation());
+            $this->assertStringStartsWith(
+                "great-animation-",
+                $text->getAnimation()
+            );
         }
     }
-
 }

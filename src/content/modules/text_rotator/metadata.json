@@ -1,7 +1,7 @@
 {
     "source": "extend",
     "embed": false,
-    "version": "1.0.1",
+    "version": "1.0.2",
     "controllers":
             {
                 "TextRotatorController": "controllers/TextRotatorController.php"

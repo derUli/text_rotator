@@ -1,11 +1,15 @@
 <?php
 
-class TextRotatorControllerTest extends \PHPUnit\Framework\TestCase {
-
+include_once dirname(__FILE__)."/../TextRotatorBaseTest.php";
+        
+class TextRotatorControllerTest extends TextRotatorBaseTest
+{
     private $testUser;
     private $testGroup;
 
-    public function setUp() {
+    protected function setUp(): void
+    {
+        parent::setUp();
         @session_start();
         $group = new Group();
         $group->setName("test-group");
@@ -25,17 +29,15 @@ class TextRotatorControllerTest extends \PHPUnit\Framework\TestCase {
         $this->testUser = $user;
     }
 
-    public function tearDown() {
+    protected function tearDown(): void
+    {
         @session_destroy();
-        Database::query("delete from {prefix}rotating_text "
-                . "where animation like 'great-animation%", true);
-        $this->testUser->delete();
-        $this->testGroup->delete();
-
+        parent::tearDown();
         unset($_SESSION["login_id"]);
     }
 
-    private function createTestData() {
+    private function createTestData()
+    {
         for ($i = 0; $i <= 3; $i++) {
             $text = new RotatingText();
             $text->setAnimation("great-animation-{$i}");
@@ -46,7 +48,8 @@ class TextRotatorControllerTest extends \PHPUnit\Framework\TestCase {
         }
     }
 
-    public function testBeforeContentFilter() {
+    public function testBeforeContentFilter()
+    {
         $this->createTestData();
 
         $texts = RotatingText::getAll();
@@ -63,15 +66,16 @@ class TextRotatorControllerTest extends \PHPUnit\Framework\TestCase {
         }
     }
 
-    public function testGetAnimationItems() {
+    public function testGetAnimationItems()
+    {
         $controller = new TextRotatorController();
         $items = $controller->getAnimationItems();
         $this->assertTrue(is_array($items));
         $this->assertCount(37, $items);
     }
 
-    public function testSettingsNoEditRight() {
-
+    public function testSettingsNoEditRight()
+    {
         unset($_SESSION["login_id"]);
 
         $this->createTestData();
@@ -86,8 +90,8 @@ class TextRotatorControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertStringNotContainsStringIgnoringCase('<i class="fa fa-plus"></i> New', $html);
     }
 
-    public function testSettingsWithEditRights() {
-
+    public function testSettingsWithEditRights()
+    {
         $_SESSION["login_id"] = $this->testUser->getId();
         $this->createTestData();
         $count = count(RotatingText::getAll());
@@ -100,5 +104,4 @@ class TextRotatorControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals($count * 5, substr_count($html, '<td'));
         $this->assertStringContainsStringIgnoringCase('<i class="fa fa-plus"></i> New', $html);
     }
-
 }

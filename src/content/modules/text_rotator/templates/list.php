@@ -11,10 +11,10 @@ if ($permissionChecker->hasPermission("text_rotator_edit")) {
     ?>
     <div class="form-group">
         <a href="<?php esc(ModuleHelper::buildActionURL("text_rotator_create")); ?>" class="btn btn-primary">
-            <i class="fa fa-plus"></i> <?php translate("new");
-    ?></a>
+            <i class="fa fa-plus"></i> <?php translate("new"); ?></a>
     </div>
-<?php } ?>
+<?php
+} ?>
 <div class="scroll">
     <table class="tablesorter">
         <thead>
@@ -32,30 +32,32 @@ if ($permissionChecker->hasPermission("text_rotator_edit")) {
                     <th class="no-sort text-center">
                         <?php translate("delete") ?>
                     </th>
-                <?php } ?>
+                <?php
+                } ?>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($rotatingTexts as $text) {
-                ?>
+                    ?>
                 <tr>
                     <td><?php esc($text->getID()); ?></td>
                     <td><?php esc($text->getWords()); ?></td>
                     <td>
                         <?php
-                        echo Input::TextBox("word_{$text->getID()}",
-                                $text->getShortcode(), "text",
-                                array("readonly" => "readonly",
-                                    "class" => "select-on-click"));
-                        ?>
+                        echo Input::TextBox(
+                        "word_{$text->getID()}",
+                        $text->getShortcode(),
+                        "text",
+                        array("readonly" => "readonly",
+                                    "class" => "select-on-click")
+                    ); ?>
                     </td>
                     <?php
                     if ($permissionChecker->hasPermission("text_rotator_edit")) {
                         ?>
                         <td class="text-center"><a
                                 href="<?php
-                                esc(ModuleHelper::buildActionURL("text_rotator_edit", "id={$text->getID()}"));
-                                ?>">
+                                esc(ModuleHelper::buildActionURL("text_rotator_edit", "id={$text->getID()}")); ?>">
                                 <img class="mobile-big-image" src="gfx/edit.png"
                                      alt="<?php translate("edit"); ?>"
                                      title="<?php translate("edit"); ?>">
@@ -64,10 +66,11 @@ if ($permissionChecker->hasPermission("text_rotator_edit")) {
                             <?php echo ModuleHelper::deleteButton(ModuleHelper::buildMethodCallUrl(TextRotatorController::class, "delete", "id={$text->getID()}")); ?>
 
                         </td>
-                    <?php } ?>
+                    <?php
+                    } ?>
                 </tr>
                 <?php
-            }
+                }
             ?>
         </tbody>
     </table>

@@ -28,12 +28,16 @@ if ($id) {
         <?php translate("words"); ?>
     </label>
     <?php
-    echo Input::TextBox("words", $model->getWords(), "text",
-            array(
+    echo Input::TextBox(
+    "words",
+    $model->getWords(),
+    "text",
+    array(
                 "required" => "required",
                 "placeholder" => get_translation("words"),
                 "maxlength" => "65536"
-    ));
+    )
+);
     ?>
 </div>
 <div class="form-group">
@@ -41,12 +45,16 @@ if ($id) {
         <?php translate("separator"); ?>
     </label>
     <?php
-    echo Input::TextBox("separator", $model->getSeparator(), "text",
-            array(
+    echo Input::TextBox(
+        "separator",
+        $model->getSeparator(),
+        "text",
+        array(
                 "required" => "required",
                 "placeholder" => get_translation("separator"),
                 "maxlength" => 5
-    ));
+    )
+    );
     ?>
 </div>
 <div class="form-group">
@@ -54,14 +62,18 @@ if ($id) {
         <?php translate("speed"); ?>
     </label>
     <?php
-    echo Input::TextBox("speed", $model->getSpeed(), "number",
-            array(
+    echo Input::TextBox(
+        "speed",
+        $model->getSpeed(),
+        "number",
+        array(
                 "min" => 1,
                 "max" => 9999,
                 "step" => 1,
                 "required" => "required",
                 "placeholder" => get_translation("speed")
-    ));
+    )
+    );
     ?>
 </div>
 <div class="form-group">
@@ -69,12 +81,16 @@ if ($id) {
         <?php translate("animation"); ?>
     </label>
     <?php
-    echo Input::SingleSelect("animation", $model->getAnimation(), $controller->getAnimationItems(),
-            1,
-            array(
+    echo Input::SingleSelect(
+        "animation",
+        $model->getAnimation(),
+        $controller->getAnimationItems(),
+        1,
+        array(
                 "required" => "required",
                 "placeholder" => get_translation("animation")
-    ));
+    )
+    );
     ?>
 </div>
 <div class="form-group"><button type="submit" class="btn btn-primary">
@@ -101,9 +117,12 @@ echo ModuleHelper::endForm();
 <div id="preview-text"></div>
 <?php
 enqueueScriptFile(
-        ModuleHelper::buildRessourcePath(TextRotatorController::MODULE_NAME, "node_modules/morphext/dist/morphext.min.js"));
+    ModuleHelper::buildRessourcePath(TextRotatorController::MODULE_NAME, "node_modules/morphext/dist/morphext.min.js")
+);
 enqueueScriptFile(
-        ModuleHelper::buildRessourcePath(
-                TextRotatorController::MODULE_NAME, "js/backend.js")
+    ModuleHelper::buildRessourcePath(
+            TextRotatorController::MODULE_NAME,
+            "js/backend.js"
+        )
 );
 combinedScriptHtml();
