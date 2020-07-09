@@ -62,6 +62,21 @@ class TextRotatorController extends MainClass
 
     public function preview()
     {
+        $words = Request::getVar("words", "", "str");
+        $separator = Request::getVar("separator", ",", "str");
+        $speed = Request::getVar("speed", 2000, "int");
+        $animation = Request::getVar("animation", "", "str");
+
+        $preview = $this->_preview($words, $separator, $speed, $animation);
+        HtmlResult($preview);
+    }
+
+    public function _preview(
+        string $words,
+        string $separator,
+        int $speed,
+        string $animation
+    ) {
         $rotating_text = new RotatingText();
         $words = Request::getVar("words", "", "str");
         $separator = Request::getVar("separator", ",", "str");
@@ -73,7 +88,7 @@ class TextRotatorController extends MainClass
         $rotating_text->setSpeed($speed);
         $rotating_text->setAnimation($animation);
 
-        HtmlResult($rotating_text->getHtml());
+        return $rotating_text->getHtml();
     }
 
     public function beforeContentFilter($html)
@@ -108,8 +123,8 @@ class TextRotatorController extends MainClass
         $rotating_text->save();
         Response::redirect(
             ModuleHelper::buildAdminURL(
-                    self::MODULE_NAME
-                )
+                self::MODULE_NAME
+            )
         );
     }
 
