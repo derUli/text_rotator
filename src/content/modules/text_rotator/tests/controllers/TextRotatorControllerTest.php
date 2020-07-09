@@ -224,10 +224,56 @@ class TextRotatorControllerTest extends TextRotatorBaseTest
     public function testBeforeContentFilter()
     {
         $page = $this->setUpTestPage();
-        
+
         $controller = new TextRotatorController();
         $html = $controller->beforeContentFilter($page->content);
 
         $this->assertMatchesHtmlSnapshot($html);
+    }
+
+    public function testDeletePostReturnsTrue()
+    {
+        $textRotator = new RotatingText();
+        $textRotator->setAnimation("great-animation-{$i}");
+        $textRotator->setSeparator("|");
+        $textRotator->setSpeed(2500);
+        $textRotator->setWords("Linux|Apache|PHP|MySQL");
+        $textRotator->save();
+
+        $controller = new TextRotatorController();
+        $this->assertTrue(
+            $controller->_deletePost(
+                    $textRotator->getID()
+                )
+        );
+    }
+
+    public function testDeletePostReturnsFalse()
+    {
+        $controller = new TextRotatorController();
+        $this->assertFalse($controller->_deletePost(PHP_INT_MAX));
+    }
+
+    public function testSavePost()
+    {
+        $textRotator = new RotatingText();
+        $textRotator->setAnimation("great-animation-{$i}");
+        $textRotator->setSeparator("|");
+        $textRotator->setSpeed(2500);
+        $textRotator->setWords("Linux|Apache|PHP|MySQL");
+        $textRotator->save();
+        
+        $id = $textRotator->getID();
+
+        $controller = new TextRotatorController();
+        $success = $controller->_savePost(
+            "Foo, Bar",
+            ", ",
+            4000,
+            "random",
+            $id
+        );
+        
+        $this->assertTrue($success);
     }
 }

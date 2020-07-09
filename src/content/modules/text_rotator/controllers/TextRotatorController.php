@@ -105,15 +105,37 @@ class TextRotatorController extends MainClass
     public function savePost()
     {
         $id = Request::getVar("id", null, "int");
-
-        $rotating_text = new RotatingText();
-        if ($id) {
-            $rotating_text->loadByID($id);
-        }
         $words = Request::getVar("words", "", "str");
         $separator = Request::getVar("separator", ",", "str");
         $speed = Request::getVar("speed", 2000, "int");
         $animation = Request::getVar("animation", "", "str");
+
+        $success = $this->_savePost(
+            $words,
+            $separator,
+            $speed,
+            $animation,
+            $id
+        );
+
+        Response::redirect(
+            ModuleHelper::buildAdminURL(
+                    self::MODULE_NAME
+                )
+        );
+    }
+
+    public function _savePost(
+        string $words,
+        string $separator,
+        int $speed,
+        string $animation,
+        ?int $id
+    ) {
+        $rotating_text = new RotatingText();
+        if ($id) {
+            $rotating_text->loadByID($id);
+        }
 
         $rotating_text->setWords($words);
         $rotating_text->setSeparator($separator);
@@ -121,11 +143,7 @@ class TextRotatorController extends MainClass
         $rotating_text->setAnimation($animation);
 
         $rotating_text->save();
-        Response::redirect(
-            ModuleHelper::buildAdminURL(
-                self::MODULE_NAME
-            )
-        );
+        return $rotating_text->isPersistent() && !$rotating_text->hasChanges();
     }
 
     public function getAnimationItems()
@@ -199,15 +217,31 @@ class TextRotatorController extends MainClass
 
     public function deletePost()
     {
-        $id = Request::getVar("id", null, "int");
-        if (!$id) {
+        $id = Request::getVar("id", 0, "int");
+
+        $success = $this->_deletePost($id);
+
+        if (!$success) {
             ExceptionResult(get_translation("not_found"), HttpStatusCode::NOT_FOUND);
         }
-        $rotatingText = new RotatingText($id);
-        $rotatingText->delete();
+
         Response::sendHttpStatusCodeResultIfAjax(
             HttpStatusCode::OK,
             ModuleHelper::buildAdminUrl(self::MODULE_NAME)
         );
+    }
+
+    public function _deletePost(int $id)
+    {
+        $textRotator = new RotatingText($id);
+
+        $success = false;
+
+        if ($textRotator->isPersistent()) {
+            $textRotator->delete();
+            $success = !$textRotator->isPersistent();
+        }
+
+        return $success;
     }
 }
