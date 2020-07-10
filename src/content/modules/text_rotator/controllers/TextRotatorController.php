@@ -21,12 +21,18 @@ class TextRotatorController extends MainClass
 
     public function adminHead()
     {
-        enqueueStylesheet(
-            ModuleHelper::buildRessourcePath(self::MODULE_NAME, "node_modules/animate.css/animate.min.css")
+        $file1 = ModuleHelper::buildRessourcePath(
+            self::MODULE_NAME,
+            "node_modules/animate.css/animate.min.css"
         );
-        enqueueStylesheet(
-            ModuleHelper::buildRessourcePath(self::MODULE_NAME, "node_modules/morphext/dist/morphext.css")
+        enqueueStylesheet($file1);
+
+        $file2 = ModuleHelper::buildRessourcePath(
+            self::MODULE_NAME,
+            "node_modules/morphext/dist/morphext.css"
         );
+        enqueueStylesheet($file2);
+
         combinedStylesheetHtml();
     }
 
@@ -39,24 +45,36 @@ class TextRotatorController extends MainClass
     public function enqueueFrontendStylesheets()
     {
         if ($this->currentPageContainsRotatingText()) {
-            enqueueStylesheet(
-                ModuleHelper::buildRessourcePath(self::MODULE_NAME, "node_modules/animate.css/animate.min.css")
+            $file1 = ModuleHelper::buildRessourcePath(
+                self::MODULE_NAME,
+                "node_modules/animate.css/animate.min.css"
             );
-            enqueueStylesheet(
-                ModuleHelper::buildRessourcePath(self::MODULE_NAME, "node_modules/morphext/dist/morphext.css")
+            enqueueStylesheet($file1);
+
+            $file2 = ModuleHelper::buildRessourcePath(
+                self::MODULE_NAME,
+                "node_modules/morphext/dist/morphext.css"
             );
+
+            enqueueStylesheet($file2);
         }
     }
 
     public function enqueueFrontendFooterScripts()
     {
         if ($this->currentPageContainsRotatingText()) {
-            enqueueScriptFile(
-                ModuleHelper::buildRessourcePath(self::MODULE_NAME, "node_modules/morphext/dist/morphext.min.js")
+            $file1 = ModuleHelper::buildRessourcePath(
+                self::MODULE_NAME,
+                "node_modules/morphext/dist/morphext.min.js"
             );
-            enqueueScriptFile(
-                ModuleHelper::buildRessourcePath(self::MODULE_NAME, "js/text_rotator.js")
+
+            enqueueScriptFile($file1);
+
+            $file2 = ModuleHelper::buildRessourcePath(
+                self::MODULE_NAME,
+                "js/text_rotator.js"
             );
+            enqueueScriptFile($file2);
         }
     }
 
@@ -77,18 +95,18 @@ class TextRotatorController extends MainClass
         int $speed,
         string $animation
     ) {
-        $rotating_text = new RotatingText();
+        $rotatingText = new RotatingText();
         $words = Request::getVar("words", "", "str");
         $separator = Request::getVar("separator", ",", "str");
         $speed = Request::getVar("speed", 2000, "int");
         $animation = Request::getVar("animation", "", "str");
 
-        $rotating_text->setWords($words);
-        $rotating_text->setSeparator($separator);
-        $rotating_text->setSpeed($speed);
-        $rotating_text->setAnimation($animation);
+        $rotatingText->setWords($words);
+        $rotatingText->setSeparator($separator);
+        $rotatingText->setSpeed($speed);
+        $rotatingText->setAnimation($animation);
 
-        return $rotating_text->getHtml();
+        return $rotatingText->getHtml();
     }
 
     public function beforeContentFilter($html)
@@ -132,18 +150,18 @@ class TextRotatorController extends MainClass
         string $animation,
         ?int $id
     ) {
-        $rotating_text = new RotatingText();
+        $rotatingText = new RotatingText();
         if ($id) {
-            $rotating_text->loadByID($id);
+            $rotatingText->loadByID($id);
         }
 
-        $rotating_text->setWords($words);
-        $rotating_text->setSeparator($separator);
-        $rotating_text->setSpeed($speed);
-        $rotating_text->setAnimation($animation);
+        $rotatingText->setWords($words);
+        $rotatingText->setSeparator($separator);
+        $rotatingText->setSpeed($speed);
+        $rotatingText->setAnimation($animation);
 
-        $rotating_text->save();
-        return $rotating_text->isPersistent() && !$rotating_text->hasChanges();
+        $rotatingText->save();
+        return $rotatingText->isPersistent() && !$rotatingText->hasChanges();
     }
 
     public function getAnimationItems()

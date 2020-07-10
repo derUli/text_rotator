@@ -11,7 +11,11 @@ class RotatingText extends Model
 
     public function loadByID($id)
     {
-        $query = Database::pQuery("select * from {prefix}rotating_text where id = ?", array(intval($id)), true);
+        $query = Database::pQuery(
+            "select * from {prefix}rotating_text where id = ?",
+            [intval($id)],
+            true
+        );
         $this->fillVars($query);
     }
 
@@ -43,7 +47,10 @@ class RotatingText extends Model
     public function getHtml()
     {
         BackendPageRenderer::setModel($this);
-        return Template::executeModuleTemplate(TextRotatorController::MODULE_NAME, "rotator.php");
+        return Template::executeModuleTemplate(
+            TextRotatorController::MODULE_NAME,
+            "rotator.php"
+        );
     }
 
     public function setAnimation($val)
@@ -86,25 +93,38 @@ class RotatingText extends Model
 
     protected function insert()
     {
-        Database::pQuery("insert into {prefix}rotating_text
+        Database::pQuery(
+            "insert into {prefix}rotating_text
             (animation, `separator`, speed, words)
             values
-            (?, ?, ?, ?)", array(
-                    $this->getAnimation(), $this->getSeparator(),
-                    $this->getSpeed(), $this->getWords()
-                        ), true)or die(Database::getLastError());
+            (?, ?, ?, ?)",
+            [
+                    $this->getAnimation(),
+                    $this->getSeparator(),
+                    $this->getSpeed(),
+                    $this->getWords()
+                ],
+            true
+        );
+
         $this->setID(Database::getLastInsertID());
     }
 
     protected function update()
     {
-        Database::pQuery("update {prefix}rotating_text
+        Database::pQuery(
+            "update {prefix}rotating_text
     set animation = ?, `separator` = ?, speed = ?, words = ?
-    where id = ?", array(
-            $this->getAnimation(), $this->getSeparator(),
-            $this->getSpeed(), $this->getWords(),
-            $this->getId()
-                ), true);
+    where id = ?",
+            [
+                    $this->getAnimation(),
+                    $this->getSeparator(),
+                    $this->getSpeed(),
+                    $this->getWords(),
+                    $this->getId()
+                ],
+            true
+        );
     }
 
     public function delete()
@@ -112,14 +132,20 @@ class RotatingText extends Model
         if (!$this->getId()) {
             return;
         }
-        Database::pQuery("DELETE FROM {prefix}rotating_text where id = ?", array($this->getID()), true);
+
+        Database::pQuery(
+            "DELETE FROM {prefix}rotating_text where id = ?",
+            [$this->getID()],
+            true
+        );
         $this->setID(null);
     }
 
     public static function getAll($order = "id")
     {
-        $query = Database::query("select id from {prefix}rotating_text order by {$order}", true);
-        $texts = array();
+        $query = Database::query("select id from {prefix}rotating_text "
+                        . "order by {$order}", true);
+        $texts = [];
         while ($row = Database::fetchObject($query)) {
             $texts[] = new self($row->id);
         }

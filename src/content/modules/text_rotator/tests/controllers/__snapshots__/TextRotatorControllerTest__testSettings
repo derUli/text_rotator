@@ -1,0 +1,17 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html><body>
+<div class="scroll">
+<table class="tablesorter">
+<thead>
+<tr>
+<th>ID</th>
+<th>Words</th>
+<th class="no-sort">Shortcode</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</div>
+<script>Translation={};Translation.AskForDelete="Really delete this?";</script>
+</body></html>

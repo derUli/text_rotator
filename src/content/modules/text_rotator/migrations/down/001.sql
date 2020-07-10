@@ -1,1 +1,1 @@
-drop table `{prefix}rotating_text`
+DROP TABLE `{prefix}rotating_text`
