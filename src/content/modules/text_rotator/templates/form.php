@@ -121,8 +121,8 @@ enqueueScriptFile(
 );
 enqueueScriptFile(
     ModuleHelper::buildRessourcePath(
-            TextRotatorController::MODULE_NAME,
-            "js/backend.js"
-        )
+        TextRotatorController::MODULE_NAME,
+        "js/backend.js"
+    )
 );
 combinedScriptHtml();

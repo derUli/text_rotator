@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use UliCMS\HTML\ListItem;
 
 class TextRotatorController extends MainClass
@@ -138,8 +140,8 @@ class TextRotatorController extends MainClass
 
         Response::redirect(
             ModuleHelper::buildAdminURL(
-                    self::MODULE_NAME
-                )
+                self::MODULE_NAME
+            )
         );
     }
 

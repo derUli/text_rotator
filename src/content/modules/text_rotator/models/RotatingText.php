@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use UliCMS\Backend\BackendPageRenderer;
 
 class RotatingText extends Model

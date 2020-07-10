@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 include_once dirname(__FILE__) . "/../TextRotatorBaseTest.php";
 
 use Spatie\Snapshots\MatchesSnapshots;
@@ -243,8 +245,8 @@ class TextRotatorControllerTest extends TextRotatorBaseTest
         $controller = new TextRotatorController();
         $this->assertTrue(
             $controller->_deletePost(
-                    $textRotator->getID()
-                )
+                $textRotator->getID()
+            )
         );
     }
 
